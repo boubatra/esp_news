@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  width: 100%;
+  background-color: aqua;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
