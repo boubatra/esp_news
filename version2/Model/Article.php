@@ -3,6 +3,7 @@ function dbConnect()
 {
 	try {
 		$database = new PDO('mysql:host=localhost;dbname=mglsi_news;charset=utf8', 'root', '');
+		// $database = new PDO('mysql:host=192.168.43.81;port=8889;dbname=mglsi_news;charset=utf8', 'mglsi_user', 'passer');
 
 		return $database;
 	} catch (Exception $e) {
@@ -17,11 +18,11 @@ function getArticles($cat = "")
 	if (strlen($cat) > 0) {
 
 		$statement = $database->query(
-			"SELECT * FROM articles where categorie=$cat  ORDER BY dateModification DESC"
+			"SELECT * FROM article where categorie=$cat  ORDER BY dateModification DESC"
 		);
 	} else {
 		$statement = $database->query(
-			"SELECT * FROM articles  ORDER BY dateModification DESC"
+			"SELECT * FROM article  ORDER BY dateModification DESC"
 		);
 	}
 	// Recuperer les articles
@@ -46,7 +47,7 @@ function getArticle($id)
 	$database = dbConnect();
 
 	$statement = $database->prepare(
-		"SELECT id, titre, contenu, DATE_FORMAT(dateCreation, '%d/%m/%Y à %Hh%imin%ss') AS dateCreation FROM articles WHERE id = ?"
+		"SELECT id, titre, contenu, DATE_FORMAT(dateCreation, '%d/%m/%Y à %Hh%imin%ss') AS dateCreation FROM article WHERE id = ?"
 	);
 	$statement->execute([$id]);
 
@@ -70,7 +71,7 @@ function getCategories()
 	$database = dbConnect();
 
 	$statement = $database->query(
-		"SELECT * FROM categories"
+		"SELECT * FROM categorie"
 	);
 	$categories = [];
 	while (($row = $statement->fetch())) {
@@ -90,7 +91,7 @@ function getCategorie($id)
 	$database = dbConnect();
 
 	$statement = $database->query(
-		"SELECT * FROM articles where categorie= $id ORDER BY dateModification DESC"
+		"SELECT * FROM article where categorie= $id ORDER BY dateModification DESC"
 	);
 	while (($row = $statement->fetch())) {
 		$article = [
